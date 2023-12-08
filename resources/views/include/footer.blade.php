@@ -10,6 +10,12 @@
                 </footer>
             </div>
         </main>
+        <script>
+       var x =  document.getElementById("CancelAlert");
+       function CancelFunction(){
+        var y  = document.getElementById("CanceldText").style.display="none";
+       }
+    </script>
 
         <script src="{{ asset('SiteAssets/js/vendors/jquery.min.js') }}"></script>
         <script src="{{ asset('SiteAssets/js/vendors/bootstrap.bundle.min.js') }}"></script>

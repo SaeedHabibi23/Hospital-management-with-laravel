@@ -6,7 +6,7 @@
 
 <div class="main-content">
                 <div class="container-fluid">
-                    <div class="row">
+                <div class="row">
                     @if(session('status'))
                         <div class="alert alert-success col-12" rol="alert" id="CanceldText" style="display:flex; justify-content: space-between;">
                             {{session('status')}}
@@ -26,7 +26,7 @@
                     <div class="section filters-section justify-content-between">
                         <div class="buttons-wrapper">
                             <button class="btn btn-dark-red-f-gr button" class="" data-toggle="modal" data-target="#myModal">
-                                <i class="las la-plus-circle"></i>add a new specialist
+                                <i class="las la-plus-circle"></i>add a new Nurse
                             </button>
                             <!-- The Modal -->
                             <div class="modal fade" id="myModal">
@@ -35,34 +35,42 @@
                                 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                    <h4 class="modal-title">Add a Doctor</h4>
+                                    <h4 class="modal-title">Add a Nurse</h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <form action="{{route('admin.savedoctor')}}" method="post">
+                                        <form action="{{route('admin.saveNurse')}}" method="post">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor Name</label>
-                                                    <input name="DoctorName" type="text" class="form-control" placeholder="Ahmad">
+                                                    <label for="name">Nurse Name</label>
+                                                    <input name="nurse_name" type="text" class="form-control" placeholder="Ahmad">
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor Email</label>
-                                                    <input name="DoctorEmail" type="email" class="form-control" placeholder="Ahmad@gmail.com">
+                                                    <label for="name">Nurse Salary</label>
+                                                    <input name="murse_salary" type="number" class="form-control" placeholder="10000">
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor SpecialistType</label>
-                                                    <input name="SpecialistType"  type="text" class="form-control" placeholder="Dentist">
+                                                    <label for="name">Nurse Shift</label>
+                                                    <input name="nurse_shift"  type="text" class="form-control" placeholder="Night">
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor Phone Number</label>
-                                                    <input name="Doctorphonenumber"  type="text" class="form-control" placeholder="0789988998">
+                                                    <label for="name">Nurse Phone Number</label>
+                                                    <input name="nurse_phone"  type="text" class="form-control" placeholder="0789988998">
                                                 </div>
-                                                <div class="col-lg-12 mb-3">
-                                                    <label for="name">Doctor Address</label>
-                                                    <input name="Doctoraddress"  type="text" class="form-control" placeholder="Herat">
+                                                <div class="col-lg-6 mb-3">
+                                                    <label for="name">Nurse Address</label>
+                                                    <input name="nurse_address"  type="text" class="form-control" placeholder="Herat">
+                                                </div>
+                                                <div class="col-lg-6 mb-3">
+                                                    <label for="name">Nurse Room</label>
+                                                    <select class="form-control" name="room_id">
+                                                        @foreach($data['Rooms'] as $Rooms) 
+                                                        <option value="{{$Rooms->room_id}}"> {{$Rooms->roomnumber}} </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                               
                                                 <div class="col-lg-6 mb-3">
@@ -87,25 +95,27 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>SpecialistType</th>
-                                    <th>PhoneNumber</th>
+                                    <th>RoomNumber</th>
+                                    <th>Salary</th>
+                                    <th>Shift</th>
+                                    <th>Phone Number</th>
                                     <th>Address</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($Doctors as $Doctor)
+                                @foreach($data['Nurses'] as $Nurse)
                                 <tr>
-                                <td class="text-muted">{{$Doctor->DoctorName}}</td>
-                                    <td class="text-muted">{{$Doctor->DoctorEmail}}</td>
-                                    <td>{{$Doctor->SpecialistType}}</td>
+                                <td class="text-muted">{{$Nurse->nurse_name}}</td>
+                                <td class="text-muted">{{$Nurse->roomnumber}}</td>
+                                    <td class="text-muted">{{$Nurse->murse_salary}}</td>
+                                    <td>{{$Nurse->nurse_shift}}</td>
                                     <td class="text-lowercase text-muted">
-                                    {{$Doctor->Doctorphonenumber}}
+                                    {{$Nurse->nurse_phone}}
                                     </td>
-                                    <td>{{$Doctor->Doctoraddress}}</td>
+                                    <td>{{$Nurse->nurse_address}}</td>
                                     <td class="d-flex justify-content-center align-items-center" >
-                                    <form action="{{ route('admin.deletedoctor' , Crypt::encryptString($Doctor->doctor_id))}}" method="post"
+                                    <form action="{{ route('admin.deleteNurse' , Crypt::encryptString($Nurse->nurse_id))}}" method="post"
                                       onsubmit="return confirm('آیا مطمین هستید میخواهید حذف کنید')">
                                         @method('delete')
                                         @csrf
@@ -115,7 +125,7 @@
                                     </button>
                                       </form>
 
-                                      <form action="{{ route('admin.editdoctor' , Crypt::encryptString($Doctor->doctor_id))}}" method="post">
+                                      <form action="{{ route('admin.editNurse' , Crypt::encryptString($Nurse->nurse_id))}}" method="post">
                                           @csrf
                                           <button class="btn mt-2  btn btn-success">
                                             edit

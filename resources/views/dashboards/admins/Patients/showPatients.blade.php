@@ -6,7 +6,7 @@
 
 <div class="main-content">
                 <div class="container-fluid">
-                    <div class="row">
+                <div class="row">
                     @if(session('status'))
                         <div class="alert alert-success col-12" rol="alert" id="CanceldText" style="display:flex; justify-content: space-between;">
                             {{session('status')}}
@@ -26,7 +26,7 @@
                     <div class="section filters-section justify-content-between">
                         <div class="buttons-wrapper">
                             <button class="btn btn-dark-red-f-gr button" class="" data-toggle="modal" data-target="#myModal">
-                                <i class="las la-plus-circle"></i>add a new specialist
+                                <i class="las la-plus-circle"></i>add a new Patient
                             </button>
                             <!-- The Modal -->
                             <div class="modal fade" id="myModal">
@@ -35,34 +35,38 @@
                                 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                    <h4 class="modal-title">Add a Doctor</h4>
+                                    <h4 class="modal-title">Add a Patients</h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <form action="{{route('admin.savedoctor')}}" method="post">
+                                        <form action="{{route('admin.savePatients')}}" method="post">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor Name</label>
-                                                    <input name="DoctorName" type="text" class="form-control" placeholder="Ahmad">
+                                                    <label for="name">Patients Name</label>
+                                                    <input name="patientName" type="text" class="form-control" placeholder="Ahmad">
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor Email</label>
-                                                    <input name="DoctorEmail" type="email" class="form-control" placeholder="Ahmad@gmail.com">
+                                                    <label for="name">Patients dises_type</label>
+                                                    <input name="dises_type" type="text" class="form-control" placeholder="GoloDard">
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor SpecialistType</label>
-                                                    <input name="SpecialistType"  type="text" class="form-control" placeholder="Dentist">
+                                                    <label for="name">Patients phone</label>
+                                                    <input name="phone"  type="text" class="form-control" placeholder="0789988998">
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
-                                                    <label for="name">Doctor Phone Number</label>
-                                                    <input name="Doctorphonenumber"  type="text" class="form-control" placeholder="0789988998">
+                                                    <label for="name">Patients  gender</label>
+                                                    <input name="gender"  type="text" class="form-control" placeholder="Man">
                                                 </div>
-                                                <div class="col-lg-12 mb-3">
-                                                    <label for="name">Doctor Address</label>
-                                                    <input name="Doctoraddress"  type="text" class="form-control" placeholder="Herat">
+                                                <div class="col-lg-6 mb-3">
+                                                    <label for="name">Patients age</label>
+                                                    <input name="age"  type="text" class="form-control" placeholder="23">
+                                                </div>
+                                                <div class="col-lg-6 mb-3">
+                                                    <label for="name">Patients address</label>
+                                                    <input name="address"  type="text" class="form-control" placeholder="Herat">
                                                 </div>
                                               
                                                 <div class="col-lg-6 mb-3">
@@ -87,25 +91,30 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>SpecialistType</th>
-                                    <th>PhoneNumber</th>
+                                    <th>dises_type</th>
+                                    <th>phone</th>
+                                    <th>gender</th>
+                                    <th>age</th>
                                     <th>Address</th>
                                     <th>Action</th>
+                                    <th>profile</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($Doctors as $Doctor)
+                                @foreach($Patients as $Patients)
                                 <tr>
-                                <td class="text-muted">{{$Doctor->DoctorName}}</td>
-                                    <td class="text-muted">{{$Doctor->DoctorEmail}}</td>
-                                    <td>{{$Doctor->SpecialistType}}</td>
+                                <td class="text-muted">{{$Patients->patientName}}</td>
+                                    <td class="text-muted">{{$Patients->dises_type}}</td>
+                                    <td>{{$Patients->phone}}</td>
                                     <td class="text-lowercase text-muted">
-                                    {{$Doctor->Doctorphonenumber}}
+                                    {{$Patients->gender}}
                                     </td>
-                                    <td>{{$Doctor->Doctoraddress}}</td>
+                                    <td class="text-lowercase text-muted">
+                                    {{$Patients->age}}
+                                    </td>
+                                    <td>{{$Patients->address}}</td>
                                     <td class="d-flex justify-content-center align-items-center" >
-                                    <form action="{{ route('admin.deletedoctor' , Crypt::encryptString($Doctor->doctor_id))}}" method="post"
+                                    <form action="{{ route('admin.deletePatients' , Crypt::encryptString($Patients->patient_id))}}" method="post"
                                       onsubmit="return confirm('آیا مطمین هستید میخواهید حذف کنید')">
                                         @method('delete')
                                         @csrf
@@ -115,12 +124,15 @@
                                     </button>
                                       </form>
 
-                                      <form action="{{ route('admin.editdoctor' , Crypt::encryptString($Doctor->doctor_id))}}" method="post">
+                                      <form action="{{ route('admin.editPatients' , Crypt::encryptString($Patients->patient_id))}}" method="post">
                                           @csrf
                                           <button class="btn mt-2  btn btn-success">
                                             edit
                                       </button>
                                       </form>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.viewprofilepatint' , Crypt::encryptString($Patients->patient_id))}}" class="btn btn-info mt-1"> view profile </a>
                                     </td>
                                 </tr>
                                @endforeach

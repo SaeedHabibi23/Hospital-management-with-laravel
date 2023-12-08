@@ -28,7 +28,7 @@ class DoctorController extends Controller
         $Doctors->Doctorphonenumber = request('Doctorphonenumber');
         $Doctors->Doctoraddress = request('Doctoraddress');
         $Doctors->save();
-        return redirect()->back()->with('status' , 'مشخصات داکتر موفقانه دخیره شد');
+        return redirect()->back()->with('status' , 'Doctor Saved Successfuly');
 
     }
     public function editdoctor($doctor_id){
@@ -40,7 +40,18 @@ class DoctorController extends Controller
         $decrypted = Crypt::decryptString($doctor_id);
         $Doctors = Doctors::where('doctor_id' , '=' , $decrypted)->first();
         $Doctors->delete();
-        return redirect(route('admin.showDoctors'))->with('status' , 'عملیه حذف شدن بصورت موفقانه انجام شد');
+        return redirect(route('admin.showDoctors'))->with('status' , 'Delete Worked Successfully');
     
     }   
+    public function saveeditdoctor(Request $request){
+        $Doctors = Doctors::where('doctor_id' , '=' , $request->doctor_id)->first();
+        $Doctors->DoctorName = request('DoctorName');
+        $Doctors->DoctorEmail = request('DoctorEmail');
+        $Doctors->SpecialistType = request('SpecialistType');
+        $Doctors->Doctorphonenumber = request('Doctorphonenumber');
+        $Doctors->Doctoraddress = request('Doctoraddress');
+        $Doctors->save();
+        return redirect(route('admin.showDoctors'))->with('status' , 'Edit Worked Successfully');
+
+    }
 }
